@@ -1,0 +1,6 @@
+require 'aws'
+require 'pry'
+require 'last_number/version'
+require 'last_number/store'
+require 'last_number/store/s3'
+require 'last_number/service'
