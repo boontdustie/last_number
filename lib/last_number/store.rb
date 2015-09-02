@@ -1,15 +1,9 @@
 module LastNumber
   class Store
+
     def initialize(config)
-      # unimplemented
-    end
-
-    def record_exists?
-      # unimplemented
-    end
-
-    def create_record
-      # unimplemented
+      @config = {}
+      config.each { |k,v| @config[k.to_sym] = v }
     end
 
     def read
@@ -17,7 +11,7 @@ module LastNumber
       # Should return json
     end
 
-    def write(string)
+    def update(hash)
       # unimplemented
     end
   end

@@ -1,33 +1,29 @@
 module LastNumber
 
-  class Store::S3
-    FILENAME = 'last_number.json'
-
-    def initialize(config)
-      @config = {}
-      config.each { |k,v| @config[k.to_sym] = v }
-    end
-
-    def record_exists?
-      file.exists?
-    end
-
-    def create_record
-      file.write("{}")
-    end
+  class Store::S3 < LastNumber::Store
 
     def read
-      file.read
+      create_file
+      JSON.parse(file.read)
     end
 
-    def write(str)
-      file.write(str)
+    def update(hash)
+      create_file
+      file.write(hash.to_json)
     end
 
     private
 
+    def create_file
+      file.write("{}") unless file_exists?
+    end
+
+    def file_exists?
+      file.exists?
+    end
+
     def file
-      bucket.objects[FILENAME]
+      bucket.objects[@config[:object_key]]
     end
 
     def bucket
@@ -35,7 +31,7 @@ module LastNumber
     end
 
     def s3
-      AWS::S3.new(
+      @s3 ||= AWS.s3.new(
         access_key_id: @config[:s3_key],
         secret_access_key: @config[:s3_secret]
       )
