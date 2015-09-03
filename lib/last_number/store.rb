@@ -2,17 +2,17 @@ module LastNumber
   class Store
 
     def initialize(config)
-      @config = {}
-      config.each { |k,v| @config[k.to_sym] = v }
+      # convert keys to symbols
+      @config = Hash[*config.flat_map { |k,v| [k.to_sym, v] }]
     end
 
     def read
-      # unimplemented
-      # Should return json
+      # must return json
+      # subclasses must implement
     end
 
     def update(hash)
-      # unimplemented
+      # subclasses must implement
     end
   end
 end
